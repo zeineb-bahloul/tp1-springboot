@@ -1,0 +1,83 @@
+<div class="container">
+
+  <div>
+    <h2>Modifier un Plat :</h2>
+  </div>
+
+  <form>
+
+    <div aria-readonly="true" class="col-sm-2 col-md-2 col-lg-2">
+      <label>Référence Plat</label>
+
+      <input
+        readonly
+        type="number"
+        [(ngModel)]="currentPlat.referencePlat"
+        name="referencePlat"
+        class="form-control">
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Intitulé Plat</label>
+
+      <input
+        type="text"
+        [(ngModel)]="currentPlat.intitulePlat"
+        name="intitulePlat"
+        class="form-control">
+    </div>
+
+    <div class="col-sm-2 col-md-2 col-lg-2">
+      <label>Tarif Plat</label>
+
+      <input
+        type="number"
+        [(ngModel)]="currentPlat.tarifPlat"
+        name="tarifPlat"
+        class="form-control">
+    </div>
+
+    <div class="col-sm-4 col-md-4 col-lg-4">
+      <label>Date d'ajout au menu</label>
+
+      <input
+        type="date"
+        [ngModel]="currentPlat.dateAjoutAuMenu | date:'yyyy-MM-dd'"
+        (ngModelChange)="changerDate($event)"
+        name="dateAjoutAuMenu"
+        class="form-control">
+    </div>
+    <div class="col-sm-4 col-md-4 col-lg-4">
+  <label>Restaurant</label>
+
+  <select
+    class="form-control form-control-lg"
+    id="codeResto"
+    name="codeResto"
+    [(ngModel)]="updatedRestoId">
+
+    @for(resto of restaurants; track resto.codeResto) {
+      <option [value]="resto.codeResto">
+        {{ resto.enseigneResto }}
+      </option>
+    }
+
+  </select>
+</div>
+
+    <div class="mt-2">
+
+      <button
+        type="button"
+        (click)="updatePlat()"
+        class="btn btn-success">
+
+        Modifier
+
+      </button>
+
+    </div>
+
+  </form>
+
+</div>

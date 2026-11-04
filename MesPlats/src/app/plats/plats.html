@@ -1,0 +1,74 @@
+<div class="container">
+  <div class="card shadow mb-4">
+    <div class="card-body">
+
+      <table class="table table-striped">
+
+        @if (plats && plats.length != 0) {
+          <thead>
+            <tr>
+              <th>N°</th>
+              <th>Référence</th>
+              <th>Intitulé</th>
+              <th>Tarif</th>
+              <th>Date d'ajout au menu</th>
+              <th>Restaurant</th>
+              @if(authService.isAdmin()) {
+                <th>Actions</th>
+                <th></th>
+              }
+            </tr>
+          </thead>
+        }
+
+        <tbody>
+          @for (plat of plats; track plat.referencePlat ?? $index;
+            let index = $index;
+            let nbr = $count;
+            let first = $first;
+            let last = $last) {
+
+            @if (first) {
+              <tr>
+                <td colspan="8">
+                  <h4 class="text-primary mb-0">Nombre : {{ nbr }}</h4>
+                </td>
+              </tr>
+            }
+
+            <tr>
+              <td>{{ index }}</td>
+              <td>{{ plat.referencePlat }}</td>
+              <td>{{ plat.intitulePlat }}</td>
+              <td>{{ plat.tarifPlat }}</td>
+              <td>{{ plat.dateAjoutAuMenu | date:'dd/MM/yyyy' }}</td>
+              <td>{{ plat.restaurant?.enseigneResto }}</td>
+              @if(authService.isAdmin()) {
+                <td><a class="btn btn-danger btn-sm" (click)="supprimerPlat(plat)">Supprimer</a></td>
+                <td><a class="btn btn-success btn-sm" [routerLink]="['/updatePlat', plat.referencePlat]">Modifier</a></td>
+              }
+            </tr>
+
+            @if (last) {
+              <tr>
+                <td colspan="8">
+                  <h5 class="text-muted mb-0">Dernier plat : {{ plat.intitulePlat }}</h5>
+                </td>
+              </tr>
+            }
+
+          }
+          @empty {
+            <tr>
+              <td colspan="8" class="text-center">
+                <h3>Aucun plat trouvé !</h3>
+              </td>
+            </tr>
+          }
+        </tbody>
+
+      </table>
+
+    </div>
+  </div>
+</div>

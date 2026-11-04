@@ -18,45 +18,47 @@ import com.example.restaurant.entities.Plat;
 import com.example.restaurant.service.PlatService;
 
 import lombok.AllArgsConstructor;
+
 @RestController
 @RequestMapping("/api")
-@CrossOrigin
+@CrossOrigin(origins = "*")
 @AllArgsConstructor
 public class PlatRESTController {
-	//@Autowired
+
 	private final PlatService platService;
-	//@RequestMapping(method = RequestMethod.GET)
+
 	@GetMapping
-	public List<Plat> getAllPlat()
-	{
-	 return platService.getAllPlats();
+	public List<Plat> getAllPlat() {
+		return platService.getAllPlats();
 	}
-	//@RequestMapping(value="/{id}",method = RequestMethod.GET)
+
 	@GetMapping("/{id}")
 	public Plat getPlatById(@PathVariable("id") Long id) {
-	return platService.getPlat(id);
-	 }
-	//@RequestMapping(method = RequestMethod.POST)
-	@PostMapping()
+		return platService.getPlat(id);
+	}
+
+	@PostMapping
 	public Plat createPlat(@RequestBody Plat plat) {
-	return platService.savePlat(plat);
+		return platService.savePlat(plat);
 	}
-	
-	//@RequestMapping(method = RequestMethod.PUT)
-	@PutMapping()
+
+	@PutMapping
 	public Plat updatePlat(@RequestBody Plat plat) {
-	return platService.updatePlat(plat);
+		return platService.updatePlat(plat);
 	}
-	//@RequestMapping(value="/{id}",method = RequestMethod.DELETE)
-	 @DeleteMapping("/{id}")
-	public void deletePlat(@PathVariable("id") Long id)
-	{
-	platService.deletePlatById(id);
+
+	@DeleteMapping("/{id}")
+	public void deletePlat(@PathVariable("id") Long id) {
+		platService.deletePlatById(id);
 	}
-	 
-	//@RequestMapping(value="/platsRes/{idRes}",method = RequestMethod.GET)
-	 @GetMapping("/platsRes/{idRes}")
+
+	@GetMapping(value = {"/platsRes/{idRes}", "/prodscat/{idRes}", "/platscat/{idRes}"})
 	public List<Plat> getPlatsByResId(@PathVariable("idRes") Long idRes) {
-	return platService.findByRestaurantCodeResto(idRes);
+		return platService.findByRestaurantCodeResto(idRes);
+	}
+
+	@GetMapping(value = {"/platsByName/{nom}", "/prodsByName/{nom}"})
+	public List<Plat> findByIntitulePlatContains(@PathVariable("nom") String nom) {
+		return platService.findByIntitulePlatContains(nom);
 	}
 }

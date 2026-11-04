@@ -1,0 +1,38 @@
+<div class="container">
+  <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+    <app-update-restaurant
+      [restaurant]="updatedResto"
+      (restaurantUpdated)="restaurantUpdated($event)"
+      [ajout]="ajout">
+    </app-update-restaurant>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Code</th>
+            <th>Enseigne Restaurant</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for(resto of restaurants; track resto.codeResto) {
+            <tr>
+              <td>{{resto.codeResto}}</td>
+              <td>{{resto.enseigneResto}}</td>
+              <td>
+                <a class="btn btn-success" (click)="updateResto(resto)">Editer</a>
+              </td>
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="3" class="text-center">Aucun restaurant trouvé</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>

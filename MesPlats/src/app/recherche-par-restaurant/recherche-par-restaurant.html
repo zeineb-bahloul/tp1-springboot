@@ -1,0 +1,50 @@
+<div class="container">
+  <div class="col-sm-4 col-md-4 col-lg-4 mb-4">
+    <label>Restaurants </label>
+    <select class="form-control form-control-lg" id="idResto" name="idResto"
+      [(ngModel)]="idRestaurant" (change)="onChange()">
+      @for(resto of restaurants; track resto.codeResto) {
+        <option [value]="resto.codeResto"> {{resto.enseigneResto}} </option>
+      }
+    </select>
+  </div>
+
+  <div class="card shadow mb-4">
+    <div class="card-body">
+      <table class="table table-striped">
+        <thead>
+          <tr>
+            <th>Référence</th>
+            <th>Intitulé</th>
+            <th>Tarif</th>
+            <th>Date d'ajout au menu</th>
+            <th>Restaurant</th>
+          </tr>
+        </thead>
+        <tbody>
+          @for (plat of plats; track plat.referencePlat) {
+            <tr>
+              <td>{{plat.referencePlat}}</td>
+              <td>{{plat.intitulePlat}}</td>
+              <td>{{plat.tarifPlat}}</td>
+              <td>{{plat.dateAjoutAuMenu | date:'dd/MM/yyyy'}}</td>
+              @if(plat.restaurant) {
+                <td>{{plat.restaurant.enseigneResto}}</td>
+              } @else {
+                <td>PAS DE RESTAURANT</td>
+              }
+              <!--
+              <td><a class="btn btn-danger" (click)="supprimerPlat(plat)">Supprimer</a></td> 
+              <td><a class="btn btn-success" [routerLink]="['/updatePlat', plat.referencePlat]">Modifier</a></td>
+              -->
+            </tr>
+          } @empty {
+            <tr>
+              <td colspan="5" class="text-center">Aucun plat trouvé pour ce restaurant</td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
