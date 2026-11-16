@@ -30,7 +30,8 @@ export class ListeRestaurants implements OnInit {
   chargerRestaurants(): void {
     this.platService.listeRestaurants().subscribe({
       next: (cats) => {
-        this.restaurants = cats._embedded.restaurants;
+        // tri par code : un restaurant modifié garde sa place
+        this.restaurants = [...cats._embedded.restaurants].sort((a, b) => a.codeResto - b.codeResto);
         console.log(cats);
       },
       error: (err) => {

@@ -16,6 +16,7 @@ export class AddPlat implements OnInit {
   restaurants!: Restaurant[];
   newIdResto!: number;
   newRestaurant!: Restaurant;
+  message = '';
 
   constructor(
     private platService: PlatService,
@@ -40,9 +41,14 @@ export class AddPlat implements OnInit {
       this.newPlat.restaurant = this.newRestaurant;
     }
 
-    if (!this.newPlat.referencePlat) {
-      delete this.newPlat.referencePlat;
+    // La référence est générée par la base : on ne l'envoie jamais à l'ajout
+    delete this.newPlat.referencePlat;
+
+    if (!this.newPlat.intitulePlat) {
+      this.message = "L'intitulé du plat est obligatoire.";
+      return;
     }
+    this.message = '';
 
     this.platService.ajouterPlat(this.newPlat).subscribe({
       next: (plat) => {
@@ -51,6 +57,7 @@ export class AddPlat implements OnInit {
       },
       error: (err) => {
         console.error("Erreur lors de l'ajout du plat :", err);
+        this.message = "Erreur lors de l'ajout du plat (le serveur Spring Boot est-il lancé ?)";
       }
     });
   }

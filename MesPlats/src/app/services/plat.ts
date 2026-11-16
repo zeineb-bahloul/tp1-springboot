@@ -13,6 +13,7 @@ const httpOptions = {
 @Injectable({
   providedIn: 'root'
 })
+// Le token JWT est ajouté automatiquement par tokenInterceptor (atelier 17)
 export class PlatService {
   apiURL: string = environment.apiURL || 'http://localhost:8082/restaurant/api';
   apiURLResto: string = 'http://localhost:8082/restaurant/restos';
@@ -20,29 +21,30 @@ export class PlatService {
   constructor(private http: HttpClient) {}
 
   listePlats(): Observable<Plat[]> {
-    return this.http.get<Plat[]>(this.apiURL);
+    return this.http.get<Plat[]>(this.apiURL + '/all');
   }
 
   ajouterPlat(plat: Plat): Observable<Plat> {
-    return this.http.post<Plat>(this.apiURL, plat, httpOptions);
+    return this.http.post<Plat>(this.apiURL + '/addplat', plat, httpOptions);
   }
 
   supprimerPlat(id: number): Observable<any> {
-    const url = `${this.apiURL}/${id}`;
+    const url = `${this.apiURL}/delplat/${id}`;
     return this.http.delete(url, httpOptions);
   }
 
   consulterPlat(id: number): Observable<Plat> {
-    const url = `${this.apiURL}/${id}`;
+    const url = `${this.apiURL}/getbyid/${id}`;
     return this.http.get<Plat>(url);
   }
 
   updatePlat(plat: Plat): Observable<Plat> {
-    return this.http.put<Plat>(this.apiURL, plat, httpOptions);
+    return this.http.put<Plat>(this.apiURL + '/updateplat', plat, httpOptions);
   }
 
   listeRestaurants(): Observable<RestaurantWrapped> {
-    return this.http.get<RestaurantWrapped>(this.apiURLResto);
+    // tri par code : l'ordre reste stable après une modification
+    return this.http.get<RestaurantWrapped>(`${this.apiURLResto}?sort=codeResto,asc`);
   }
 
   consulterRestaurant(id: number): Observable<Restaurant> {
@@ -50,7 +52,10 @@ export class PlatService {
   }
 
   ajouterRestaurant(resto: Restaurant): Observable<Restaurant> {
-    return this.http.post<Restaurant>(this.apiURLResto, resto, httpOptions);
+    // Le code est généré par la base : on ne l'envoie pas.
+    // Avec codeResto = 0, Spring croit à une modification du restaurant n°0 et échoue.
+    const { codeResto, ...nouveauResto } = resto;
+    return this.http.post<Restaurant>(this.apiURLResto, nouveauResto, httpOptions);
   }
 
   ajouterCategorie(cat: Restaurant): Observable<Restaurant> {

@@ -16,16 +16,15 @@ export class App implements OnInit {
     private router: Router
   ) {}
 
+  // Atelier 16bis : afficher la page login seulement si l'utilisateur n'est pas connecté
   ngOnInit(): void {
-    let isloggedin: string;
-    let loggedUser: string;
-    isloggedin = localStorage.getItem('isloggedIn')!;
-    loggedUser = localStorage.getItem('loggedUser')!;
-    if (isloggedin != 'true' || !loggedUser) {
+    this.authService.loadToken();
+    // les pages d'inscription restent accessibles sans être connecté
+    const page = window.location.pathname;
+    if (page.startsWith('/register') || page.startsWith('/verifEmail'))
+      return;
+    if (this.authService.getToken() == null || this.authService.isTokenExpired())
       this.router.navigate(['/login']);
-    } else {
-      this.authService.setLoggedUserFromLocalStorage(loggedUser);
-    }
   }
 
   onLogout(): void {

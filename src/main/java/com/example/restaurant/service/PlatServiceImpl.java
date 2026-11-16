@@ -3,6 +3,7 @@ package com.example.restaurant.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.example.restaurant.entities.Plat;
@@ -37,12 +38,13 @@ public class PlatServiceImpl implements PlatService {
 
 	@Override
 	public Plat getPlat(Long id) {
-		return platRepository.findById(id).get();
+		return platRepository.findById(id).orElse(null);
 	}
 
 	@Override
 	public List<Plat> getAllPlats() {
-		return platRepository.findAll();
+		// Sans ORDER BY, PostgreSQL renvoie la ligne modifiée à la fin de la liste
+		return platRepository.findAll(Sort.by(Sort.Direction.ASC, "referencePlat"));
 	}
 
 	@Override
@@ -52,7 +54,7 @@ public class PlatServiceImpl implements PlatService {
 
 	@Override
 	public List<Plat> findByIntitulePlatContains(String nom) {
-		return platRepository.findByIntitulePlatContains(nom);
+		return platRepository.findByIntitulePlatContainsOrderByReferencePlatAsc(nom);
 	}
 
 	@Override
@@ -67,7 +69,7 @@ public class PlatServiceImpl implements PlatService {
 
 	@Override
 	public List<Plat> findByRestaurantCodeResto(Long id) {
-		return platRepository.findByRestaurantCodeResto(id);
+		return platRepository.findByRestaurantCodeRestoOrderByReferencePlatAsc(id);
 	}
 
 	@Override

@@ -27,27 +27,31 @@ public class PlatRESTController {
 
 	private final PlatService platService;
 
-	@GetMapping
+	// Atelier 15 : URL explicites pour pouvoir les sécuriser une par une
+	@GetMapping("/all")
 	public List<Plat> getAllPlat() {
 		return platService.getAllPlats();
 	}
 
-	@GetMapping("/{id}")
+	@GetMapping("/getbyid/{id}")
 	public Plat getPlatById(@PathVariable("id") Long id) {
 		return platService.getPlat(id);
 	}
 
-	@PostMapping
+	@PostMapping("/addplat")
 	public Plat createPlat(@RequestBody Plat plat) {
+		// Ajout = nouvelle ligne : la référence est générée par la base.
+		// Si une référence est envoyée, Hibernate ferait un merge et échouerait.
+		plat.setReferencePlat(null);
 		return platService.savePlat(plat);
 	}
 
-	@PutMapping
+	@PutMapping("/updateplat")
 	public Plat updatePlat(@RequestBody Plat plat) {
 		return platService.updatePlat(plat);
 	}
 
-	@DeleteMapping("/{id}")
+	@DeleteMapping("/delplat/{id}")
 	public void deletePlat(@PathVariable("id") Long id) {
 		platService.deletePlatById(id);
 	}

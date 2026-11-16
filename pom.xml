@@ -68,6 +68,16 @@
 <groupId>org.springframework.boot</groupId>
 <artifactId>spring-boot-starter-data-rest</artifactId>
 </dependency>
+		<!-- Atelier 15 : sécuriser les api REST par JWT -->
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.auth0</groupId>
+			<artifactId>java-jwt</artifactId>
+			<version>4.4.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

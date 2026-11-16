@@ -23,8 +23,9 @@ export class RechercheParNom implements OnInit {
     this.platService.listePlats().subscribe({
       next: (prods) => {
         console.log(prods);
-        this.plats = prods;
-        this.allPlats = prods;
+        const tries = [...prods].sort((a, b) => (a.referencePlat ?? 0) - (b.referencePlat ?? 0));
+        this.plats = tries;
+        this.allPlats = tries;
       },
       error: (err) => {
         console.error('Erreur chargement plats :', err);

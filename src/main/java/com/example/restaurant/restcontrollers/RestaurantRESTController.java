@@ -3,6 +3,7 @@ package com.example.restaurant.restcontrollers;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,7 +18,7 @@ import com.example.restaurant.entities.Restaurant;
 import com.example.restaurant.repos.RestaurantRepository;
 
 @RestController
-@RequestMapping({"/api/resto", "/api/cat"})
+@RequestMapping({"/api/resto"})
 @CrossOrigin(origins = "*")
 public class RestaurantRESTController {
 
@@ -26,7 +27,7 @@ public class RestaurantRESTController {
 
 	@RequestMapping(method = RequestMethod.GET)
 	public List<Restaurant> getAllRestaurants() {
-		return restaurantRepository.findAll();
+		return restaurantRepository.findAll(Sort.by(Sort.Direction.ASC, "codeResto"));
 	}
 
 	@RequestMapping(value = "/{id}", method = RequestMethod.GET)

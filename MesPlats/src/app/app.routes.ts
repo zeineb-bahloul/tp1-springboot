@@ -8,6 +8,8 @@ import { ListeRestaurants } from './liste-restaurants/liste-restaurants';
 import { Login } from './login/login';
 import { Forbidden } from './forbidden/forbidden';
 import { platGuard } from './plat-guard';
+import { Register } from './register/register';
+import { VerifEmail } from './verif-email/verif-email';
 
 export const routes: Routes = [
   { path: 'plats', component: Plats },
@@ -21,5 +23,7 @@ export const routes: Routes = [
   { path: 'listeCategories', redirectTo: 'listeRestaurants' },
   { path: 'login', component: Login },
   { path: 'app-forbidden', component: Forbidden },
+  { path: 'register', component: Register },
+  { path: 'verifEmail', component: VerifEmail },
   { path: '', redirectTo: 'plats', pathMatch: 'full' }
 ];

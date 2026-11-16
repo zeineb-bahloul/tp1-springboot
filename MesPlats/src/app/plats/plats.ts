@@ -27,7 +27,8 @@ export class Plats implements OnInit {
     this.platService.listePlats().subscribe({
       next: (prods) => {
         console.log(prods);
-        this.plats = prods;
+        // tri par référence : un plat modifié garde sa place
+        this.plats = [...prods].sort((a, b) => (a.referencePlat ?? 0) - (b.referencePlat ?? 0));
       },
       error: (err) => {
         console.error('Erreur lors du chargement des plats :', err);

@@ -30,4 +30,9 @@ public interface PlatRepository extends JpaRepository<Plat, Long> {
 	@Query("select p from Plat p order by p.intitulePlat ASC, p.tarifPlat DESC")
 	List<Plat> trierPlatsIntituleTarif();
 
+	// Versions triées par référence : l'ordre ne change plus après une modification
+	List<Plat> findByRestaurantCodeRestoOrderByReferencePlatAsc(Long id);
+
+	List<Plat> findByIntitulePlatContainsOrderByReferencePlatAsc(String nom);
+
 }

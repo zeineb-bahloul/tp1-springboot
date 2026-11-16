@@ -33,7 +33,7 @@ export class RechercheParRestaurant implements OnInit {
   onChange(): void {
     this.platService.rechercherParRestaurant(this.idRestaurant).subscribe({
       next: (prods) => {
-        this.plats = prods;
+        this.plats = [...prods].sort((a, b) => (a.referencePlat ?? 0) - (b.referencePlat ?? 0));
       },
       error: (err) => {
         console.error('Erreur recherche par restaurant :', err);
